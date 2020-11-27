@@ -3,10 +3,8 @@ name: CI
 on: [push, pull_request]
 
 env:
-  ADDITIONAL_DEBS: "clang-tidy libclang-dev"
   CATKIN_LINT: true
   CATKIN_LINT_ARGS: '--strict'
-  CMAKE_ARGS: "-DCATKIN_ENABLE_CLANG_TIDY=true"
 
 jobs:
   build_test_main:
@@ -19,6 +17,18 @@ jobs:
           ROS_REPO: main
           ROS_DISTRO: melodic
     continue-on-error: true
+
+  build_test_clang_tidy:
+    name: "clang tidy melodic"
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: 'ros-industrial/industrial_ci@master'
+        env:
+          ROS_REPO: testing
+          ROS_DISTRO: melodic
+          ADDITIONAL_DEBS: "clang-tidy libclang-dev"
+          CMAKE_ARGS: "-DCATKIN_ENABLE_CLANG_TIDY=true"
 
   build_test_testing:
     name: "Build + Test with Testing Repo of melodic (http://packages.ros.org/ros-testing/ubuntu)"
