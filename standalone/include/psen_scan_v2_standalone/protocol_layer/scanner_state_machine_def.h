@@ -111,6 +111,11 @@ inline void ScannerProtocolDef::sendStartRequest(const T& event)
     args_->config_.setHostIp(host_ip.to_ulong());
     PSENSCAN_INFO("StateMachine", "No host ip set! Using local ip: {}", host_ip.to_string());
   }
+  PSENSCAN_INFO("StateMachine",
+                "Assigned ports: {} (control), {} (data)",
+                args_->control_client_->getHostPort(),
+                args_->data_client_->getHostPort());
+  args_->config_.setHostUDPPortData(args_->data_client_->getHostPort());
   args_->control_client_->write(serialize(data_conversion_layer::start_request::Message(args_->config_)));
 }
 

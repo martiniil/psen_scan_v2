@@ -49,6 +49,8 @@ public:
   bool diagnosticsEnabled() const;
 
   void setHostIp(const uint32_t& host_ip);
+  void setHostUDPPortData(uint16_t port_number);
+  void setHostUDPPortControl(uint16_t port_number);
 
 private:
   friend class ScannerConfigurationBuilder;
@@ -117,6 +119,16 @@ inline bool ScannerConfiguration::diagnosticsEnabled() const
 inline void ScannerConfiguration::setHostIp(const uint32_t& host_ip)
 {
   host_ip_ = host_ip;
+}
+
+inline void ScannerConfiguration::setHostUDPPortControl(uint16_t port_number)
+{
+  host_control_port_ = port_number;
+}
+
+inline void ScannerConfiguration::setHostUDPPortData(uint16_t port_number)
+{
+  host_data_port_ = port_number;
 }
 
 }  // namespace psen_scan_v2_standalone

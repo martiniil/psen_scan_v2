@@ -140,7 +140,12 @@ public:
   /**
    * @brief Returns local ip address of current socket connection.
    */
-  boost::asio::ip::address_v4 getHostIp();
+  boost::asio::ip::address_v4 getHostIp() const;
+
+  /**
+   * @brief Returns local port number of current socket connection.
+   */
+  uint16_t getHostPort() const;
 
 private:
   void asyncReceive(const ReceiveMode& modi);
@@ -169,7 +174,7 @@ inline communication_layer::UdpClientImpl::UdpClientImpl(const NewDataHandler& d
                                                          const unsigned short& endpoint_port)
   : data_handler_(data_handler)
   , error_handler_(error_handler)
-  , socket_(io_service_, boost::asio::ip::udp::endpoint(boost::asio::ip::udp::v4(), host_port))
+  , socket_(io_service_, boost::asio::ip::udp::v4())
   , endpoint_(boost::asio::ip::address_v4(endpoint_ip), endpoint_port)
 {
   if (!data_handler)
@@ -224,9 +229,14 @@ inline void UdpClientImpl::close()
   // LCOV_EXCL_STOP
 }
 
-inline boost::asio::ip::address_v4 UdpClientImpl::getHostIp()
+inline boost::asio::ip::address_v4 UdpClientImpl::getHostIp() const
 {
   return socket_.local_endpoint().address().to_v4();
+}
+
+inline uint16_t UdpClientImpl::getHostPort() const
+{
+  return socket_.local_endpoint().port();
 }
 
 inline UdpClientImpl::~UdpClientImpl()
