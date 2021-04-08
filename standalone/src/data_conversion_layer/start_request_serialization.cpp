@@ -78,7 +78,7 @@ RawData data_conversion_layer::start_request::serialize(const data_conversion_la
    */
 
   const uint8_t device_enabled{ 0b00001000 };
-  const uint8_t intensity_enabled{ 0b00001000 };
+  const uint8_t intensity_enabled{ 0b00000000 };
   const uint8_t point_in_safety_enabled{ 0 };
   const uint8_t active_zone_set_enabled{ 0 };
   const uint8_t io_pin_enabled{ 0 };
@@ -98,7 +98,7 @@ RawData data_conversion_layer::start_request::serialize(const data_conversion_la
 
   raw_processing::write(os, msg.master_.getScanRange().getStart().value());
   raw_processing::write(os, msg.master_.getScanRange().getEnd().value());
-  raw_processing::write(os, msg.master_.getResolution().value());
+  raw_processing::write(os, (util::TenthOfDegree)1);  // msg.master_.getResolution().value());
 
   for (const auto& slave : msg.slaves_)
   {
