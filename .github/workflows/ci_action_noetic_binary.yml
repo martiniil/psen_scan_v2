@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v1
       - name: Initialize ROS environment
         run: |
-          sudo apt-get update && sudo apt install python3-bloom fakeroot dpkg-dev debhelper -y
+          apt-get update && apt install python3-bloom fakeroot dpkg-dev debhelper -y
           rosdep init && rosdep update
           rosdep install --from-paths . -r -y
       - name: Generate debian binary
@@ -37,7 +37,7 @@ jobs:
         with:
           name: debian-binary
       - name: Install debian
-        run: sudo apt-get update && sudo apt-get install ./ros-noetic-psen-scan-v2_* -y
+        run: apt-get update && apt-get install ./ros-noetic-psen-scan-v2_* -y
       - uses: actions/checkout@v1
       - name: Launch test
         run: |
