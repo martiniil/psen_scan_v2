@@ -19,6 +19,10 @@ jobs:
           source /opt/ros/noetic/setup.bash
           bloom-generate rosdebian --ros-distro noetic
           fakeroot debian/rules binary
+          echo "."
+          ls -l .
+          echo ".."
+          ls -l ../
           mv ../ros-noetic-psen-scan-v2_* ~/cached_binary.deb
           pwd ~
           ls -l ~
@@ -27,7 +31,7 @@ jobs:
       - name: Cache debian binary
         uses: actions/cache@v2
         with:
-          key: debian-${{ runner.os }}-${{ github.sha }}
+          key: debian-${{ github.sha }}
           path: cached_binary.deb
 
   launch-check:
