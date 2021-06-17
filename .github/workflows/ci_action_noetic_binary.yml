@@ -8,8 +8,7 @@ jobs:
     runs-on: ubuntu-20.04
     container: ros:noetic-ros-core
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
 
       - name: Initialize ROS environment
         run: |
@@ -25,8 +24,7 @@ jobs:
           cp ../ros-noetic-psen-scan-v2_*.deb ~/cached_binary.deb
         shell: bash
 
-      - name: Cache debian binary
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
           key: debian-${{ github.sha }}
           path: cached_binary.deb
@@ -37,17 +35,21 @@ jobs:
     runs-on: ubuntu-20.04
     container: ros:noetic-ros-core
     steps:
-      - name: Restore cache
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
+        id: cache
         with:
           key: debian-${{ github.sha }}
           path: cached_binary.deb
 
       - name: Install debian
-        run: apt-get update && apt-get install ./cached_binary.deb -y
+        run: |
+          echo "."
+          ls -l .
+          echo "~"
+          ls -l ~
+          apt-get update && apt-get install ./cached_binary.deb -y
 
-      - name: Checkout repository
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
 
       - name: Launch test
         run: |
