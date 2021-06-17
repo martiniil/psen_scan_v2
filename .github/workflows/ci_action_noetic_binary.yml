@@ -27,7 +27,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           key: debian-${{ github.sha }}
-          path: cached_binary.deb
+          path: ~/cached_binary.deb
 
   launch-check:
     name: "Launch check for psen_scan_v2"
@@ -39,7 +39,7 @@ jobs:
         id: cache
         with:
           key: debian-${{ github.sha }}
-          path: cached_binary.deb
+          path: ~/cached_binary.deb
 
       - name: Install debian
         run: |
