@@ -19,14 +19,16 @@ jobs:
           source /opt/ros/noetic/setup.bash
           bloom-generate rosdebian --ros-distro noetic
           fakeroot debian/rules binary
-          mv ../ros-noetic-psen-scan-v2_* ../cached_binary.deb
+          mv ../ros-noetic-psen-scan-v2_* ~/cached_binary.deb
+          pwd ~
+          ls -l ~
           echo "DEBIAN_BIN_PATH=${GITHUB_WORKSPACE%/psen_scan_v2}" >> $GITHUB_ENV
         shell: bash
       - name: Cache debian binary
         uses: actions/cache@v2
         with:
           key: debian-${{ runner.os }}-${{ github.sha }}
-          path: ${{ env.DEBIAN_BIN_PATH }}/cached_binary.deb
+          path: cached_binary.deb
 
   launch-check:
     name: "Launch check for psen_scan_v2"
@@ -36,12 +38,10 @@ jobs:
     steps:
       - name: Restore cache
         uses: actions/cache@v2
-        id: cache
         with:
           key: debian-${{ runner.os }}-${{ github.sha }}
-          path: ${{ env.DEBIAN_BIN_PATH }}/cached_binary.deb
+          path: cached_binary.deb
       - name: Install debian
-        if: steps.cache.outputs.cache-hit != 'true'
         run: apt-get update && apt-get install ./cached_binary.deb -y
       - uses: actions/checkout@v1
       - name: Launch test
