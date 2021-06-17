@@ -43,10 +43,8 @@ jobs:
 
       - name: Install debian
         run: |
-          echo "."
-          ls -l .
-          echo "~"
-          ls -l ~
+          cd ~
+          ls -l
           apt-get update && apt-get install ./cached_binary.deb -y
 
       - uses: actions/checkout@v1
