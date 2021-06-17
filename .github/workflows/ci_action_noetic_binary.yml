@@ -19,7 +19,7 @@ jobs:
           source /opt/ros/noetic/setup.bash
           bloom-generate rosdebian --ros-distro noetic
           fakeroot debian/rules binary
-          mv ros-noetic-psen-scan-v2_* cached_binary.deb
+          mv ../ros-noetic-psen-scan-v2_* ../cached_binary.deb
           echo "DEBIAN_BIN_PATH=${GITHUB_WORKSPACE%/psen_scan_v2}" >> $GITHUB_ENV
         shell: bash
       - name: Cache debian binary
