@@ -21,13 +21,13 @@ jobs:
           source /opt/ros/noetic/setup.bash
           bloom-generate rosdebian --ros-distro noetic
           fakeroot debian/rules binary
-          cp ../ros-noetic-psen-scan-v2_*.deb ~/cached_binary.deb
+          cp ../ros-noetic-psen-scan-v2_*.deb cached_binary.deb
         shell: bash
 
       - uses: actions/cache@v2
         with:
           key: debian-${{ github.sha }}
-          path: ~/cached_binary.deb
+          path: cached_binary.deb
 
   launch-check:
     name: "Launch check for psen_scan_v2"
@@ -39,13 +39,10 @@ jobs:
         id: cache
         with:
           key: debian-${{ github.sha }}
-          path: ~/cached_binary.deb
+          path: cached_binary.deb
 
       - name: Install debian
-        run: |
-          cd ~
-          ls -l
-          apt-get update && apt-get install ./cached_binary.deb -y
+        run: apt-get update && apt-get install ./cached_binary.deb -y
 
       - uses: actions/checkout@v1
 
