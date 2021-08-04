@@ -66,8 +66,6 @@ public:
   const IntensityData& getIntensities() const;
   void setIntensities(const IntensityData&);
 
-  bool operator==(const LaserScan& scan) const;
-
 private:
   //! Measurement data of the laserscan (in Millimeters).
   MeasurementData measurements_;

@@ -100,11 +100,4 @@ void LaserScan::setIntensities(const IntensityData& intensities)
   intensities_ = intensities;
 }
 
-bool LaserScan::operator==(const LaserScan& scan) const
-{
-  return ((max_scan_angle_ == scan.max_scan_angle_) && (min_scan_angle_ == scan.min_scan_angle_) &&
-          (resolution_ == scan.resolution_) && (measurements_.size() == scan.measurements_.size()) &&
-          std::equal(measurements_.begin(), measurements_.end(), scan.measurements_.begin()));
-}
-
 }  // namespace psen_scan_v2_standalone

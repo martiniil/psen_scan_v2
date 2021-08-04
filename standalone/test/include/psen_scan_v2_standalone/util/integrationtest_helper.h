@@ -137,9 +137,16 @@ ACTION_P(OpenBarrier, barrier)
   barrier->release();
 }
 
+using namespace ::testing;
+
 MATCHER_P(ScanDataEqual, scan, "")
 {
-  return arg == scan;  // ToDo: misleading?!
+  return ExplainMatchResult(Eq(scan.getScanCounter()), arg.getScanCounter(), result_listener) &&
+         ExplainMatchResult(Eq(scan.getScanResolution()), arg.getScanResolution(), result_listener) &&
+         ExplainMatchResult(Eq(scan.getMinScanAngle()), arg.getMinScanAngle(), result_listener) &&
+         ExplainMatchResult(Eq(scan.getMaxScanAngle()), arg.getMaxScanAngle(), result_listener) &&
+         ExplainMatchResult(Pointwise(DoubleEq(), scan.getMeasurements()), arg.getMeasurements(), result_listener) &&
+         ExplainMatchResult(Pointwise(DoubleEq(), scan.getIntensities()), arg.getIntensities(), result_listener);
 }
 
 MATCHER_P2(TimestampInExpectedTimeframe, conversion_time_of_last_scan, prior_scan_timestamp, "")
