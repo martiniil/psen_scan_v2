@@ -139,14 +139,22 @@ ACTION_P(OpenBarrier, barrier)
 
 using namespace ::testing;
 
+MATCHER_P(PointwiseDoubleEq, vec, "")
+{
+  return std::equal(
+      vec.begin(), vec.end(), arg.begin(), arg.end(), [&result_listener](const double& a, const double& b) {
+        return ExplainMatchResult(DoubleEq(b), a, result_listener);
+      });
+}
+
 MATCHER_P(ScanDataEqual, scan, "")
 {
   return ExplainMatchResult(Eq(scan.getScanCounter()), arg.getScanCounter(), result_listener) &&
          ExplainMatchResult(Eq(scan.getScanResolution()), arg.getScanResolution(), result_listener) &&
          ExplainMatchResult(Eq(scan.getMinScanAngle()), arg.getMinScanAngle(), result_listener) &&
          ExplainMatchResult(Eq(scan.getMaxScanAngle()), arg.getMaxScanAngle(), result_listener) &&
-         ExplainMatchResult(Pointwise(DoubleEq(), scan.getMeasurements()), arg.getMeasurements(), result_listener) &&
-         ExplainMatchResult(Pointwise(DoubleEq(), scan.getIntensities()), arg.getIntensities(), result_listener);
+         ExplainMatchResult(PointwiseDoubleEq(scan.getMeasurements()), arg.getMeasurements(), result_listener) &&
+         ExplainMatchResult(PointwiseDoubleEq(scan.getIntensities()), arg.getIntensities(), result_listener);
 }
 
 MATCHER_P2(TimestampInExpectedTimeframe, conversion_time_of_last_scan, prior_scan_timestamp, "")
