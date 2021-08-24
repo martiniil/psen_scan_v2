@@ -165,7 +165,7 @@ LaserScanConverter::calculateFirstRayTime(const data_conversion_layer::monitorin
 {
   const double time_per_scan_in_ns{ configuration::TIME_PER_SCAN_IN_S * 1000000000.0 };
   const double scan_interval_in_degree{ stamped_msg.msg_.resolution().value() *
-                                        (stamped_msg.msg_.measurements().size() - 1) / 10.0 };
+                                        (stamped_msg.msg_.measurements().size()) / 10.0 };
   return stamped_msg.stamp_ - static_cast<int64_t>(std::round(scan_interval_in_degree * time_per_scan_in_ns / 360.0));
 }
 
