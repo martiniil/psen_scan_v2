@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 env:
   BUILD_TYPE: "Release"
+  CTEST_OUTPUT_ON_FAILURE: 1
 
 jobs:
   build:
@@ -35,4 +36,4 @@ jobs:
     - name: Test
       working-directory: ${{runner.workspace}}/build
       shell: bash
-      run: ctest --output-on-failure
+      run: ctest
