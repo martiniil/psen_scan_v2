@@ -21,6 +21,7 @@
 
 #include "psen_scan_v2_standalone/data_conversion_layer/diagnostics.h"
 #include "psen_scan_v2_standalone/data_conversion_layer/monitoring_frame_deserialization.h"
+#include "psen_scan_v2_standalone/util/format_range.h"
 
 namespace psen_scan_v2_standalone
 {
@@ -118,6 +119,7 @@ monitoring_frame::Message deserialize(const data_conversion_layer::RawData& data
                                        NUMBER_OF_BYTES_SINGLE_MEASUREMENT };
         raw_processing::readArray<uint16_t, double>(
             is, msg.intensities_, num_measurements, std::bind(toIntensities, _1));
+        std::cout << fmt::format("read intensities: {}", util::formatRange(msg.intensities_)) << std::endl;
         break;
       }
       default:
