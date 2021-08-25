@@ -170,6 +170,7 @@ using namespace ::testing;
 MATCHER_P2(TimestampInExpectedTimeframe, reference_scan, reference_timestamp, "")
 {
   const int64_t elapsed_time{ getCurrentTime() - reference_timestamp };
+  *result_listener << "where the elapsed time is " << elapsed_time;
   return ExplainMatchResult(Gt(reference_scan.getTimestamp()), arg.getTimestamp(), result_listener) &&
          ExplainMatchResult(Lt(reference_scan.getTimestamp() + elapsed_time), arg.getTimestamp(), result_listener);
 }
