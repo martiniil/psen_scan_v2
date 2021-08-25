@@ -454,6 +454,11 @@ TEST_F(ScannerAPITests, shouldIgnoreMonitoringFrameOfFormerScanRound)
   const auto timestamp{ getCurrentTime() };
   const auto scan{ createReferenceScan(msgs_round3, timestamp) };
 
+  for (const auto msg : msgs_round3)
+  {
+    std::cout << fmt::format("generated intensity: {}", util::formatRange(msg.intensities())) << std::endl;
+  }
+
   util::Barrier monitoring_frame_barrier;
 
   EXPECT_CALL(user_callbacks_,
